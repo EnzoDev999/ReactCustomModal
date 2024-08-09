@@ -21,6 +21,7 @@ const Modal = ({
     message: "Default message content.",
     buttonText: "Close",
   },
+  customClass = "",
 }) => {
   const [isMounted, setIsMounted] = useState(false);
   const triggerRefs = useRef(new Map());
@@ -96,7 +97,7 @@ const Modal = ({
 
   return (
     <div
-      className="modal-overlay"
+      className={`modal-overlay ${customClass}`}
       onClick={clickOutsideClose ? onClose : null}
       style={{
         transition: `opacity ${fadeDuration}ms ${
