@@ -1,70 +1,91 @@
-# Getting Started with Create React App
+# React Modal Enzo
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+React Modal Enzo est un composant de modal personnalisable pour React. Il offre des animations configurables et permet l'ajout de contenu dynamique.
 
-## Available Scripts
+## Installation
 
-In the project directory, you can run:
+Pour installer le package via npm, utilisez la commande suivante :
 
-### `npm start`
+```bash
+npm install react-modal-enzo
+```
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Utilisation
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+Voici comment utiliser le composant Modal dans votre projet :
 
-### `npm test`
+**Importation**
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+```bash
+import Modal from 'react-modal-enzo';
+```
 
-### `npm run build`
+**Exemple d'utilisation**
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+```bash
+import React, { useState } from "react";
+import Modal from "react-modal-enzo";
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+const App = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+  return (
+    <div>
+      <button onClick={() => setIsModalOpen(true)}>Open Modal</button>
+      <Modal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        fadeDuration={1000}
+        clickOutsideClose={true}
+        disableEscClose={false}
+        animationConfig={{
+          open: { easing: "ease-in-out", transform: "translateY(0)" },
+          close: { easing: "ease-out", transform: "translateY(-20px)" },
+        }}
+        content={{
+          title: "Welcome",
+          message: "This is a customizable modal.",
+          buttonText: "Close",
+        }}
+        customClass="my-custom-class"
+        style={{ backgroundColor: "#fff" }}
+      />
+    </div>
+  );
+};
 
-### `npm run eject`
+export default App;
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+```
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## Propriétés du composant
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+| Propriété           | Type               | Obligatoire | Par défaut                                                                                                                       | Description                                                                |
+| ------------------- | ------------------ | ----------- | -------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------- |
+| `isOpen`            | `boolean`          | Oui         | —                                                                                                                                | Contrôle si la modal est ouverte ou fermée.                                |
+| `onClose`           | `function`         | Oui         | —                                                                                                                                | Fonction appelée pour fermer la modal.                                     |
+| `children`          | `ReactNode`        | Non         | —                                                                                                                                | Contenu additionnel à afficher dans la modal.                              |
+| `fadeDuration`      | `number`           | Non         | `300`                                                                                                                            | Durée de la transition d'animation en millisecondes.                       |
+| `clickOutsideClose` | `boolean`          | Non         | `true`                                                                                                                           | Permet de fermer la modal en cliquant à l'extérieur.                       |
+| `closeExisting`     | `boolean`          | Non         | `true`                                                                                                                           | Ferme d'autres modales ouvertes lorsque celle-ci s'ouvre.                  |
+| `disableEscClose`   | `boolean`          | Non         | `false`                                                                                                                          | Désactive la fermeture de la modal avec la touche Échap.                   |
+| `closeTriggers`     | `array of strings` | Non         | `[]`                                                                                                                             | Sélecteurs CSS pour les éléments qui déclenchent la fermeture de la modal. |
+| `animationConfig`   | `object`           | Non         | `{ open: { easing: "ease-in-out", transform: "translateY(0)" }, close: { easing: "ease-out", transform: "translateY(-20px)" } }` | Configuration des animations pour l'ouverture et la fermeture de la modal. |
+| `content`           | `object`           | Non         | `{ title: "Default Title", message: "Default message content.", buttonText: "Close" }`                                           | Contenu textuel par défaut de la modal.                                    |
+| `customClass`       | `string`           | Non         | `""`                                                                                                                             | Classe CSS personnalisée pour la modal.                                    |
+| `style`             | `object`           | Non         | `{}`                                                                                                                             | Style CSS inline supplémentaire pour la modal.                             |
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+## Personnalisation du style
 
-## Learn More
+Pour personnaliser davantage la modal, vous pouvez ajouter votre propre CSS en utilisant la prop customClass pour cibler les éléments de la modal.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+```bash
+.my-custom-class {
+  border-radius: 10px;
+  padding: 30px;
+}
+```
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## Contribution
 
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Les contributions sont les bienvenues. Veuillez ouvrir une issue pour discuter de vos idées ou soumettre une pull request.
