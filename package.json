@@ -1,6 +1,6 @@
 {
   "name": "react-modal-enzo",
-  "version": "0.7.0",
+  "version": "0.8.0",
   "description": "A customizable modal component for React.",
   "main": "dist/Modal.js",
   "scripts": {
@@ -31,5 +31,8 @@
     "@babel/core": "^7.25.2",
     "@babel/preset-env": "^7.25.3",
     "@babel/preset-react": "^7.24.7"
+  },
+  "dependencies": {
+    "prop-types": "^15.8.1"
   }
 }

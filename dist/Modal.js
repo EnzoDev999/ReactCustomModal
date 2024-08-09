@@ -6,7 +6,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = void 0;
 var _react = _interopRequireWildcard(require("react"));
+var _propTypes = _interopRequireDefault(require("prop-types"));
 require("./Modal.css");
+function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
 function _getRequireWildcardCache(e) { if ("function" != typeof WeakMap) return null; var r = new WeakMap(), t = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(e) { return e ? t : r; })(e); }
 function _interopRequireWildcard(e, r) { if (!r && e && e.__esModule) return e; if (null === e || "object" != _typeof(e) && "function" != typeof e) return { "default": e }; var t = _getRequireWildcardCache(r); if (t && t.has(e)) return t.get(e); var n = { __proto__: null }, a = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var u in e) if ("default" !== u && {}.hasOwnProperty.call(e, u)) { var i = a ? Object.getOwnPropertyDescriptor(e, u) : null; i && (i.get || i.set) ? Object.defineProperty(n, u, i) : n[u] = e[u]; } return n["default"] = e, t && t.set(e, n), n; }
 function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
@@ -19,7 +21,7 @@ function _nonIterableRest() { throw new TypeError("Invalid attempt to destructur
 function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
 function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
 function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
-function _arrayWithHoles(r) { if (Array.isArray(r)) return r; } // Modal.js
+function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
 var Modal = function Modal(_ref) {
   var _ref$style = _ref.style,
     style = _ref$style === void 0 ? {} : _ref$style,
@@ -144,5 +146,36 @@ var Modal = function Modal(_ref) {
   }, "\xD7"), content.title && /*#__PURE__*/_react["default"].createElement("h2", null, content.title), " ", content.message && /*#__PURE__*/_react["default"].createElement("p", null, content.message), " ", content.buttonText && /*#__PURE__*/_react["default"].createElement("button", {
     onClick: onClose
   }, content.buttonText), " ", children, " "));
+};
+
+// Définir les types de prop et indiquer les props obligatoires
+Modal.propTypes = {
+  isOpen: _propTypes["default"].bool.isRequired,
+  // Obligatoire pour déterminer si la modale est visible
+  onClose: _propTypes["default"].func.isRequired,
+  // Obligatoire pour gérer la fermeture de la modale
+  fadeDuration: _propTypes["default"].number,
+  clickOutsideClose: _propTypes["default"].bool,
+  closeExisting: _propTypes["default"].bool,
+  disableEscClose: _propTypes["default"].bool,
+  closeTriggers: _propTypes["default"].arrayOf(_propTypes["default"].string),
+  animationConfig: _propTypes["default"].shape({
+    open: _propTypes["default"].shape({
+      easing: _propTypes["default"].string,
+      transform: _propTypes["default"].string
+    }),
+    close: _propTypes["default"].shape({
+      easing: _propTypes["default"].string,
+      transform: _propTypes["default"].string
+    })
+  }),
+  content: _propTypes["default"].shape({
+    title: _propTypes["default"].string,
+    message: _propTypes["default"].string,
+    buttonText: _propTypes["default"].string
+  }),
+  customClass: _propTypes["default"].string,
+  style: _propTypes["default"].object,
+  children: _propTypes["default"].node
 };
 var _default = exports["default"] = Modal;

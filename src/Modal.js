@@ -1,5 +1,5 @@
-// Modal.js
 import React, { useEffect, useState, useRef } from "react";
+import PropTypes from "prop-types";
 import "./Modal.css";
 
 const Modal = ({
@@ -136,6 +136,35 @@ const Modal = ({
       </div>
     </div>
   );
+};
+
+// Définir les types de prop et indiquer les props obligatoires
+Modal.propTypes = {
+  isOpen: PropTypes.bool.isRequired, // Obligatoire pour déterminer si la modale est visible
+  onClose: PropTypes.func.isRequired, // Obligatoire pour gérer la fermeture de la modale
+  fadeDuration: PropTypes.number,
+  clickOutsideClose: PropTypes.bool,
+  closeExisting: PropTypes.bool,
+  disableEscClose: PropTypes.bool,
+  closeTriggers: PropTypes.arrayOf(PropTypes.string),
+  animationConfig: PropTypes.shape({
+    open: PropTypes.shape({
+      easing: PropTypes.string,
+      transform: PropTypes.string,
+    }),
+    close: PropTypes.shape({
+      easing: PropTypes.string,
+      transform: PropTypes.string,
+    }),
+  }),
+  content: PropTypes.shape({
+    title: PropTypes.string,
+    message: PropTypes.string,
+    buttonText: PropTypes.string,
+  }),
+  customClass: PropTypes.string,
+  style: PropTypes.object,
+  children: PropTypes.node,
 };
 
 export default Modal;
