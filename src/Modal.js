@@ -7,15 +7,10 @@ const Modal = ({
   isOpen,
   onClose,
   children,
-  fadeDuration = 300,
   clickOutsideClose = true,
   closeExisting = true,
   disableEscClose = false,
   closeTriggers = [],
-  animationConfig = {
-    open: { easing: "ease-in-out", transform: "translateY(0)" },
-    close: { easing: "ease-out", transform: "translateY(-20px)" },
-  },
   content = {
     title: "Default Title",
     message: "Default message content.",
@@ -24,7 +19,8 @@ const Modal = ({
   customClass = "",
 }) => {
   const [isMounted, setIsMounted] = useState(false);
-  const triggerRefs = useRef(new Map());
+  const overlayRef = useRef(null); // Create a ref for the overlay element
+  const triggerRefs = useRef(new Map()); // Define triggerRefs to manage trigger elements
 
   const closeAllModals = () => {
     document.querySelectorAll(".modal-overlay.open").forEach((el) => {
@@ -38,20 +34,27 @@ const Modal = ({
         closeAllModals();
       }
       setIsMounted(true);
-      setTimeout(() => {
-        const overlay = document.querySelector(".modal-overlay");
-        if (overlay) {
-          overlay.classList.add("open");
-        }
-      }, 1);
     } else {
-      const overlay = document.querySelector(".modal-overlay");
+      setIsMounted(false);
+    }
+  }, [isOpen, closeExisting]);
+
+  // Separate useEffect for adding/removing "open" class
+  useEffect(() => {
+    if (isMounted) {
+      const overlay = overlayRef.current; // Access the current DOM node
+
+      if (overlay) {
+        overlay.classList.add("open");
+      }
+    } else {
+      const overlay = overlayRef.current;
+
       if (overlay) {
         overlay.classList.remove("open");
       }
-      setTimeout(() => setIsMounted(false), fadeDuration);
     }
-  }, [isOpen, fadeDuration, closeExisting]);
+  }, [isMounted]); // Add/remove class based on isMounted
 
   useEffect(() => {
     const handleTriggerClick = (event) => {
@@ -97,42 +100,24 @@ const Modal = ({
 
   return (
     <div
+      ref={overlayRef} // Attach the ref to the overlay element
       className={`modal-overlay ${customClass}`}
       onClick={clickOutsideClose ? onClose : null}
-      style={{
-        transition: `opacity ${fadeDuration}ms ${
-          isOpen ? animationConfig.open.easing : animationConfig.close.easing
-        }`,
-      }}
     >
       <div
         className="modal-content"
         onClick={(e) => e.stopPropagation()}
-        style={{
-          ...style,
-          transition: `transform ${fadeDuration}ms ${
-            isOpen ? animationConfig.close.easing : animationConfig.open.easing
-          }, opacity ${fadeDuration}ms ${
-            isOpen ? animationConfig.close.easing : animationConfig.open.easing
-          }`,
-          transform: isOpen
-            ? animationConfig.close.transform
-            : animationConfig.open.transform,
-          opacity: isOpen ? 1 : 0,
-        }}
+        style={style}
       >
         <button className="close-button" onClick={onClose}>
           &times;
         </button>
-        {content.title && <h2>{content.title}</h2>}{" "}
-        {/* Affiche le titre seulement si défini */}
-        {content.message && <p>{content.message}</p>}{" "}
-        {/* Affiche le message seulement si défini */}
+        {content.title && <h2>{content.title}</h2>}
+        {content.message && <p>{content.message}</p>}
         {content.buttonText && (
           <button onClick={onClose}>{content.buttonText}</button>
-        )}{" "}
-        {/* Affiche le bouton seulement si défini */}
-        {children} {/* Enfants supplémentaires fournis par l'utilisateur */}
+        )}
+        {children}
       </div>
     </div>
   );
@@ -142,21 +127,10 @@ const Modal = ({
 Modal.propTypes = {
   isOpen: PropTypes.bool.isRequired, // Obligatoire pour déterminer si la modale est visible
   onClose: PropTypes.func.isRequired, // Obligatoire pour gérer la fermeture de la modale
-  fadeDuration: PropTypes.number,
   clickOutsideClose: PropTypes.bool,
   closeExisting: PropTypes.bool,
   disableEscClose: PropTypes.bool,
   closeTriggers: PropTypes.arrayOf(PropTypes.string),
-  animationConfig: PropTypes.shape({
-    open: PropTypes.shape({
-      easing: PropTypes.string,
-      transform: PropTypes.string,
-    }),
-    close: PropTypes.shape({
-      easing: PropTypes.string,
-      transform: PropTypes.string,
-    }),
-  }),
   content: PropTypes.shape({
     title: PropTypes.string,
     message: PropTypes.string,
