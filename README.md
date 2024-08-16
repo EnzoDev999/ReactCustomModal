@@ -67,16 +67,67 @@ export default App;
 | `customClass`       | `string`           | Non         | `""`                                                                                   | Classe CSS personnalisée pour la modal.                                    |
 | `style`             | `object`           | Non         | `{}`                                                                                   |
 
-## Personnalisation du style
+## Personnalisation des éléments internes
 
-Pour personnaliser davantage la modal, vous pouvez ajouter votre propre CSS en utilisant la prop customClass pour cibler les éléments de la modal.
+Le composant `Modal` vous permet de personnaliser les styles de la modal et de ses éléments internes en utilisant la prop `customClass` pour ajouter une classe personnalisée à l'overlay (`modal-overlay`) et la prop `style` pour styliser le contenu de la modal (`modal-content`).
 
-```bash
-.my-custom-class {
+### Utilisation de `customClass`
+
+La prop `customClass` ajoute une classe CSS personnalisée à l'overlay, qui entoure la modal. Vous pouvez l'utiliser pour styliser l'overlay et cibler les éléments internes de la modal comme le contenu (`modal-content`) et le bouton de fermeture (`close-button`).
+
+```css
+/* Exemple de style pour l'overlay */
+.my-custom-overlay {
+  background-color: rgba(0, 0, 0, 0.8); /* Changer la couleur de l'overlay */
+}
+
+/* Exemple de style pour le contenu de la modal */
+.my-custom-overlay .modal-content {
+  background-color: white;
   border-radius: 10px;
   padding: 30px;
 }
+
+/* Exemple de style pour le bouton de fermeture */
+.my-custom-overlay .close-button {
+  color: red;
+  font-size: 24px;
+}
 ```
+
+### Utilisation de `style`
+
+La prop style vous permet de passer des styles en ligne directement au contenu de la modal (modal-content). Ces styles sont appliqués directement à l'élément contenant le contenu de la modal, mais ils n'affectent pas les éléments enfants comme le bouton de fermeture.
+
+```bash
+<Modal
+  isOpen={isModalOpen}
+  onClose={() => setIsModalOpen(false)}
+  customClass="my-custom-overlay"
+  style={{ backgroundColor: "#fff", padding: "20px" }} // Styles appliqués à .modal-content
+/>
+```
+
+Avec le CSS suivant :
+
+```css
+.my-custom-overlay {
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+.my-custom-overlay .modal-content {
+  border-radius: 10px;
+}
+
+.my-custom-overlay .close-button {
+  color: red;
+  font-size: 24px;
+}
+```
+
+## Conclusion
+
+En utilisant customClass et style, vous avez un contrôle total sur le style de l'overlay et du contenu de la modal. Pour styliser des éléments internes spécifiques comme le bouton de fermeture, utilisez des sélecteurs CSS appropriés avec la classe ajoutée via customClass.
 
 ## Contribution
 
